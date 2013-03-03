@@ -1,0 +1,117 @@
+<html> <head>
+<title>CSCI130 Lab 3 - TDL</title>
+</head>
+<a id="title"></a>
+<body>
+<h1>CSCI130 Lab 3 - TDL</h1>
+
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In this lab I will be creating an html document in the hopes of becoming familiar with the features and structure of the language.
+</p>
+
+<h2>Basics of HTML (from what I can tell)</h2>
+<p>
+It would appear that an html document requires at the very least an <tt>&lt;html&gt;</tt> and a <tt>&lt;/html&gt;</tt> tag.  I just checked and it appears even that is not entirely necessary.  An html file with nothing but the text "test" in it loaded fine displaying that text in my chrome browser.
+
+Now I will list some of the requirements of the lab and attempt to fulfill them in the same line, in list format.
+
+<ul>
+  <li>I need to present some character entities.
+    <ul>
+      <li>Here is an accented vowel (I think): &Uuml;
+      <li>Here is a ligature: &AElig;
+      <li><b><i>This sentence is in bold and italic.</b></i>
+      <li>Here is a copyright symbol: &copy;, and here are the cent and pound sterling symbols: &cent; &pound;
+	<li><sub>This line is in subscript,</sub> and <sup>this line is in superscript.</sup>
+	  <li>I'm not sure what an indented extended quotation is, but <blockquote>this is what it does...</blockquote>
+	    </ul>
+</ul>
+<ol>
+  <li>Above was an unordered list; this is an ordered list.
+    <li>This is the second item of my ordered list.
+      <ol>
+	<li>This is an example of a nested ordered list within an ordered list.
+      </ol>
+</ol>
+</p>
+<p>
+<br>
+Here is a sample usage of the horizontle rule tag:
+<hr size=13>
+<br>
+Here is another horizontle; this time of size 15:
+<hr size=15>
+<br>
+
+Hmm, not much different.  Lets try size 25:
+<hr size=25>
+<br>
+
+That's a little bit better, but I wonder how big it could actually get?
+Let's go crazy and set it to 200:
+<hr size=200>
+<br>
+
+That's more like it, though I doubt I'll ever end up using one that sizable.<br>
+
+Let's try one with some attributes thrown in:
+<hr size=40 width=50 align=center noshade=noshade>
+<br>
+
+Hmm, not quite what I expected.  Lets try that again:
+<hr size=30 width=500 align=center noshade=noshade>
+<br>
+
+
+
+Good enough, I think.
+<br>
+</p>
+<br>
+<p>
+<hr>
+<br>
+Here is my preformatted c++ program.  The "xmp" tag works wonderfully here, but I hear its usage may be frowned upon for some reason.
+<a id="code"></a>
+<xmp>
+#include <iostream>
+
+int main()
+{
+  cout << "Hello, web programming world!" << endl;
+  return 0;
+}
+</xmp>
+</p>
+<br>
+<p>
+<a href="lab3pt2.html">I felt this might be a good opportunity to try linking between pages.  Click here to continue.</a>
+<br>
+<a href="http://www.wikipedia.org">Here is a link to an incredibly useful webpage that I think everyone is already familiar with.</a>
+<br>
+</p>
+<br>
+<p>
+Now I will try to insert an image into this page in different ways.
+<br>
+<img src="lab3.gif" alt="First try; no height or width attributes.">
+<br>
+Now I will alter the img tag to change the size and position.
+<br>
+<img src="lab3.gif" alt="Second Picture" align="right" height="300" width="200">
+<br>
+Now as you can see here, I can distort the image away from its original aspect ratio:
+<br>
+<img src="lab3.gif" align="middle" height="50" width="500">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href=#title>Click here to return to the top of the page.</a>
+</body></html>

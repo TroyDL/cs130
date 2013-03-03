@@ -1,0 +1,45 @@
+<html><head><title>Lab 2</title></head>
+<h1>Lab 2 Results</h1>
+<body>
+<h2>Part 1</h2>
+<ul>
+  <li>http://mulan.csufresno.edu
+  <ul>
+    <li>The server software and version used on this server is Apache/2.2.22 (Ubuntu)
+    <li>The page was not found, so it has no last modified date or length.
+    <li>The response status code was 404.
+  </ul>
+  <li>http://www.csufresno.edu
+  <ul>
+    <li>The server software is: Apache/2.2.3 (Red Hat) PHP/5.1.6 mod_python/3.2.8
+    Python/2.4.3 mod_ssl/2.2.3 OpenSSL/0.9.8e-fips-rhel5 mod_perl/2.0.4 Perl/v5.8.8
+    <li>There is no site description.
+    <li>There is no JavaScript.
+    <li>There is no Quantcast.
+  </ul>
+  <li>http://www.csufresno.ed/csci
+  <ul>
+    <li>This address was redirected to www.fresnostate.edu/csci, which was then redirected
+    to www.fresnostate.edu/csm/csci, which was then redirected to
+    http://bogus_host_without_reverse_dns/csm/csci, which was not a real address.  Thus, I
+    was unable to find a working version of the site via telnet.
+    <li>I'm guessing the redirection is so that a user can attempt to access either site and still access the actual site.  Also, this would prevent having to update and synchronize both sites.
+    <li>PHP/5.1.6
+    <li>I can't find InstanceBeginEditable within the document at all.  I assume it signifies something is editable, but by whom or by what, I do not know.  I also cannot find #BeginDate in a comment.
+  </ul>
+  <li>http://www.csufresno.edu/engineering/
+  <ul>
+    <li>The meta keywords are actually "Some keywords here".  It appears someone had intended to put some but hasn't yet.
+    <li>It appears there are 3 stylesheets linked from the page.
+    <li>I believe the full uri is fresnostate.edu/engineering/images
+    <li>Using the "du -b" command, it appears the image is 35788 bytes.  This is after I cleaned up the telnet information from the file.  Unfortunately I cannot open the file; the error is that it's corrupt.
+    <li>I believe the mime type was .jpg.
+  </ul>
+</ul>
+
+<h3>Part 2</h3>
+<ul>
+  <li>The size of the link is smaller than the size of the real file: 9bytes vs 49bytes.  Other than that I cannot find a physical difference.  If I open the link in a browser the address stays as the link's address, but the contents are of the file it is linking to.  If I delete the link it simply goes away.  If I delete the original I can no longer access the link in a browser and editing the link shows it to be empty.  Interestingly, if I save info inside the link I was editing, it saves it as a new file with the original file name.
+  <li>The 'ls' and 'mv' commands are stored in the /bin/ directory.  The 'ssh' command is stored in /usr/bin/ssh and the 'telnet' command is stored in /usr/bin/telnet.  The /etc folder appears to have various terminal specific files such as configuration files.
+</ul>
+  </body></html>
