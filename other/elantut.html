@@ -1,0 +1,40 @@
+<html><head>Windows 8 Four Finger Swipe Tutorial</head>
+<title>Windows 8 four finger swipe tutorial</title>
+<body>
+<div class="md"><p>After a good deal of research and effort I have enabled 4 finger desktop swipe on my Samsung NP700Z7C-S03 laptop.  This allows me to swipe left or right and jump to a different workspace.  I figured this might be a good place to post this because I went down the hackintosh road too and there&#39;s a good chance some of you may be interested.</p>
+
+  <p>First off there are requirements.  I have only tested this with my pc so I can&#39;t guarentee it for other laptops or even other versions of windows on this laptop.  But I&#39;m guessing as long as you have Windows 8 (maybe 7) and an Elan (elantech) touchpad with at least 4 finger multitouch, there&#39;s a good chance it&#39;ll work.</p>
+
+  <p>First requirement: an Elan touchpad with at least 4 finger swipe.  You can either check online to find out, or possibly go into your Elantech install directory (C:/Program Files/Elantech for me) and launch the ETDDeviceInformation.exe.  Hopefully it&#39;s there for you as it was for me.  That will tell you how many fingers it supports.  Also any driver MAY work, but I&#39;m using the newest samsung NP700Z7C touchpad driver available from Samsung&#39;s support website.  My version is 11.7.2.1_WHQL.</p>
+
+  <p>Next requirement: Dexpot 1.6.6, Build 2227.  Other versions or builds may work, but this is the one I&#39;m using that I know works.  This is a free download from <a href="http://www.dexpot.de">http://www.dexpot.de</a>.  It is the program that enables multiple workspaces in windows.</p>
+
+  <p>Third requirement: Windows 8.  There is a very good chance 7 will work fine but this is the one I know works.  To be specific, Windows 8 Pro 64.</p>
+
+  <p>Alright, onto the process.</p>
+
+  <ol>
+    <li>Install Dexpot</li>
+    <li>Load registry editor and go to HKEY_CURRENT_USER/Software/Elantech/SmartPad.  Make a backup of your registry settings just in case.  Make a backup of your whole OS if possible.  Do not change anything except what I specify.  Be aware that modifying your registry could make windows unusable so backup and be careful if you&#39;re new at that.  (Probably not a problem for this subreddit)</li>
+    <li>Open your Elantech specific touchpad settings UI and set it aside.</li>
+    <li>Open the Dexpot settings and go to controls on the left.</li>
+    <li>Change the following key settings to the following values if not there already:
+    FourFingerMove_Enable=0x00000001
+    FourFingerMove_Enable_Mode=0x00000000
+    FourFingerMoveLeft_Enable=0x00000001
+    FourFingerMoveLeft_Func=0x00000004
+    FourFingerMoveRight_Enable=0x00000001
+    FourFingerMoveRight_Func=0x00000003</li>
+    <li>Go to your mouse settings window you&#39;ve opened and make a small change, and then change it back.  This should force windows to recognize the registry changes.<br/></li>
+    <li>Go back into Dexpot&#39;s settings/controls section and open the &quot;Switch desktop&quot; list.  Click on &quot;Next desktop&quot;.  Check &quot;Allow hotkeys without modifiers&quot; and uncheck any modifiers.  Then click in the textbox underneath the modifiers.  Perform a 4 finger swipe left or right (depending on how you want it to function, I prefer left like OSX).  &quot;Keycode 167&quot; or &quot;Keycode 166&quot; should show up.  Do the same with &quot;Previous desktop&quot; but with the opposite swipe.</li>
+    <li>Click apply and try it out.</li>
+  </ol>
+
+  <p>If Keycode 167 or 166 did not show up then either your drivers or hardware doesn&#39;t support it, or something got mixed up in the previous steps.  Check your drivers and retrace the steps.</p>
+
+  <p>I&#39;m really hoping this works for other people.  I&#39;ve searched high and low for something like this and failed to find anything, so I hope others can find this useful.  If you try it and succeed please let me know, especially if you&#39;re using a setup different than mine.  If you try and fail, let me know what didn&#39;t work and if I can think of anything to help I will.</p>
+
+  <p>Also it&#39;s not quite as fluid as OSX, but it&#39;s better than nothing in my opinion.  Also sometimes it doesn&#39;t work when certain programs are loaded and have focus, click on the desktop and try again.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+.headers {
+  background-color: #FEDCBA;
+  font-family:"Consolas", Consolas, serif;
+  text-align: left;
+}
+
+.headers h1 {
+  color: #00FF00;
+  font-size: 125%;
+}
+.headers h2 {
+  color: #FF0000;
+  font-size: 175%;
+}
+.headers h3 {
+  color: #00FFFF;
+  font-size: 105%;
+}
+.headers h4 {
+  color: #FFFF00;
+  font-size: 145%;
+}
+
+body{
+  background: #8D52DD;
+  text-align: right;
+  background-image:url('../resources/homer-bush.gif');
+  background-color:#cccccc;
+  background-size:100%;
+  background-repeat:no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

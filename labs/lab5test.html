@@ -1,0 +1,65 @@
+<html><head>Lab5</head>
+<title>Lab 5 - Troy Lonie</title>
+<br>
+<body onLoad="start()">
+<h1>Javascript testing:</h1>
+
+<a align="middle" href="http://www.google.com" onMouseOver="return changeImage()"
+  onMouseOut="return changeImageBack()"
+  onMouseDown="return handleMDown()"
+  onMouseUp="return handleMUp()" ><img name="jsbutton"
+  src="../resources/lab5button1.png" alt="Javascript Button"></a>
+<br>
+<form>
+  <input type="button" name="formbutton" value="Click for Google" onClick="return buttonfunction()">
+</form>
+
+<script>
+
+function buttonfunction()
+{
+  window.location.assign("http://www.google.com");
+  return true;
+}
+function changeImage()
+{
+  document.images["jsbutton"].src="../resources/lab5button2.png";
+  return true;
+}
+function changeImageBack()
+{
+  document.images["jsbutton"].src="../resources/lab5button1.png";
+  return true;
+}
+function handleMDown()
+{
+  document.images["jsbutton"].src="../resources/lab5button3.png";
+  return true;
+}
+function handleMUp()
+{
+  changeImage();
+  return true;
+}
+function arith_table(size, operation)
+{
+  document.write("<table>");
+  for( var i = 0; i < size; i++ )
+  {
+    document.write("<th>blah</th>");
+  }
+  document.write("</table>");
+}
+
+function start()
+{
+  alert("Hello, welcome to my JS testing page.");
+}
+</script>
+<script>
+arith_table(15, true);
+
+</script>
+
+</body>
+</html>

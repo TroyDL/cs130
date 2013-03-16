@@ -1,0 +1,44 @@
+.headers {
+  background-color: #ABCDEF;
+  font-family:"Consolas", Consolas, serif;
+}
+
+.headers h1 {
+  color: #00FF00;
+  font-size: 125%;
+}
+.headers h2 {
+  color: #FF0000;
+  font-size: 175%;
+}
+.headers h3 {
+  color: #00FFFF;
+  font-size: 105%;
+}
+.headers h4 {
+  color: #FFFF00;
+  font-size: 145%;
+}
+
+body{
+  background: #DDDDDD;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
