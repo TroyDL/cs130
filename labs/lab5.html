@@ -1,0 +1,104 @@
+<html><head>Lab5</head>
+<title>Lab 5 - Troy Lonie</title>
+<br>
+<body onLoad="start()">
+<h1>Javascript testing:</h1>
+
+<a align="middle" href="http://www.google.com" onMouseOver="return changeImage()"
+  onMouseOut="return changeImageBack()"
+  onMouseDown="return handleMDown()"
+  onMouseUp="return handleMUp()" ><img name="jsbutton"
+  src="../resources/lab5button1.png" alt="Javascript Button"></a>
+<br>
+<form>
+  <input type="button" name="formbutton" value="Click for Google" onClick="return buttonfunction()">
+</form>
+
+<script>
+function buttonfunction()
+{
+  window.location.assign("http://www.google.com");
+  return true;
+}
+function changeImage()
+{
+  document.images["jsbutton"].src="../resources/lab5button2.png";
+  return true;
+}
+function changeImageBack()
+{
+  document.images["jsbutton"].src="../resources/lab5button1.png";
+  return true;
+}
+function handleMDown()
+{
+  document.images["jsbutton"].src="../resources/lab5button3.png";
+  return true;
+}
+function handleMUp()
+{
+  changeImage();
+  return true;
+}
+function arith_table(size, operation)
+{
+  document.write("<h2>Document.Write Table Test: Size=",size,", Operation=", operation,"</h2> <br> <table border='1'>");
+  if( operation == true )
+  {
+    document.write("<th>+</th>");
+    for( var i=0;i<size+1;i++ )
+    {
+      document.write("<th>", i, "</th>");
+    }
+    for( var i=0;i<size+1;i++)
+    {
+      document.write("<tr><th>", i, "</th>");
+      for( var j=0;j<size+1;j++)
+      {
+        document.write("<td align='right'>", j+i, "</td>");
+      }
+      document.write("</tr>");
+    }
+  }
+  else
+  {
+    document.write("<th>*</th>");
+    for( var i=0;i<size+1;i++ )
+    {
+      document.write("<th>", i, "</th>");
+    }
+    for( var i=0;i<size+1;i++)
+    {
+      document.write("<tr align='right'><th>", i, "</th>");
+      for( var j=0;j<size+1;j++)
+      {
+        document.write("<td>", j*i, "</td>");
+      }
+      document.write("</tr>");
+    }
+
+  }
+  document.write("</table><br>");
+}
+function start()
+{
+  alert("Hello, welcome to my JS testing page.");
+}
+</script>
+<script>
+arith_table(15,true);
+arith_table(15,false);
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
