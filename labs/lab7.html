@@ -1,4 +1,147 @@
-<html><title>Coming Soon</title>
-<head>Coming Soon</head>
+<html>
+<head>
+<title>Lab7 </title>
 
+<script>
+// global variables
+var num_rows = 16;
+var num_cols = 16;
+var num_mines = 40;
+var tile_size = 24;
+var start_time = 0;
+var time_interval = 1000;
+var current_time;
+var board = new Array(num_rows*num_cols);//Board state: -1=mine, 0=empty, 1-8=number
+var visib = new Array(num_rows*num_cols);//Maintain visibility state of each tile.  0=covered, 1=empty/number, 2=flag
+// click(n) handles the clicking of card n
+function leftClick(n) { //had to change this from click for some reason
+  if (matched[n] || cardsFlipped == 2 || (cardsFlipped==1 && flipped[0]==n))
+   return;
+}
+function rightClick(n)
+{
+  return false;
+}
+function updateTimer()
+{
+  current_time++;
+  document.f.timer.value = current_time;
+}
+// update() refreshes values displayed in textboxes
+function update() {
+  document.f.player.value = currentPlayer + 1;
+  document.f.time.value = scores[0];
+  document.f.flags.value = scores[1];
+}
+
+// newGame() does all initializations required for starting a new game
+function newGame()
+{
+  gameGrid();
+  current_time = start_time;
+  updateTimer();
+  window.setInterval("updateTimer()",1000);
+
+  currentPlayer = 0;
+  scores[0] = scores[1] = scores[2] = 0;
+  cardsFlipped = 0;
+  for (var i = 0; i < num_cols*num_rows; i++) {
+    matched[i] = false;
+    document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
+  }
+  // shuffle deck
+  for (var i = num_cols*num_rows; i > 0; i--) {
+    var rand = Math.floor(Math.random()*(i+1));
+    var temp = deck[rand];
+    deck[rand] = deck[i];
+    deck[i] = temp;
+  }
+  // initialize textfields
+  update();
+}
+function checkMatch()
+{
+  var f = flipped[0], s = flipped[1];
+  if (deck[f].charAt(0) == deck[s].charAt(0)) {
+    document.images[f].src = "http://mulan.csufresno.edu/~twilson/memory/cards/j.gif";
+    document.images[s].src = "http://mulan.csufresno.edu/~twilson/memory/cards/j.gif";
+    matched[f] = matched[s] = true;
+    scores[currentPlayer]++;
+    update();
+    if (scores[0] + scores[1] + scores[2] == 24) {
+      // game is over, determine winner
+      if (scores[0] > scores[1] && scores[0] > scores[2])
+        alert("Player 1 has won!");
+      else if (scores[0] < scores[1] && scores[1] > scores[2])
+        alert("Player 2 has won!");
+      else if(scores[0] < scores[2] && scores[1] < scores[2])
+        alert("Player 3 has won!");
+      else if(scores[0] == scores[1] && scores[0] > scores[2])
+        alert("Players 1 and 2 have tied for first place!");
+      else if(scores[1] == scores[2] && scores[1] > scores[0])
+        alert("Players 2 and 3 have tied for first place!");
+      else if(scores[0] == scores[2] && scores[0] > scores[1])
+        alert("Players 1 and 3 have tied for first place!");
+      else
+        alert("Players 1, 2 and 3 have tied!");
+    }
+  } else {
+    document.images[f].src = "http://mulan.csufresno.edu/~twilson/memory/cards/b.gif";
+    document.images[s].src = "http://mulan.csufresno.edu/~twilson/memory/cards/b.gif";
+    if (currentPlayer == 2)
+      currentPlayer = 0;
+    else
+      currentPlayer++;
+    update();
+  }
+  cardsFlipped = 0;  // note: this enables further clicks, which we do last
+}
+function gameGrid()
+{
+  document.write("<table border='1'>");
+  for( var i=0; i<num_cols; i++ )
+  {
+    document.write("<tr>");
+    for( var j=0; j<num_rows; j++ )
+    {
+      document.write("<td><a HREF='' onContextMenu='rightClick(", j+num_cols*i, "); return false' onClick='leftClick(", j+num_cols*i, "); return false'> <img SRC='http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg' WIDTH='", tile_size, "' HEIGHT='", tile_size, "'></a></td>");
+    }
+    document.write("</tr>");
+  }
+  document.write("</table>");
+}
+</script>
+</head>
+<body>
+  <script>
+    gameGrid();
+  </script>
+  <br>
+  <form NAME='f'>
+    <input TYPE='button' VALUE='New Game' onClick='newGame()'>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Flags:<input TYPE='text' NAME='flags' SIZE='2'>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Time:<input TYPE='text' NAME='timer' SIZE='3'>
+  </form>
+  <br>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

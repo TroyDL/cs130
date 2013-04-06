@@ -1,9 +1,7 @@
 <html>
 <head>
-</head>
 <title>Lab7 </title>
 
-<body BGCOLOR="white" onLoad="cardGrid()">
 <script>
 // global variables
 var num_rows = 16;
@@ -15,49 +13,25 @@ var time_interval = 1000;
 var current_time;
 var board = new Array(num_rows*num_cols);//Board state: -1=mine, 0=empty, 1-8=number
 var visib = new Array(num_rows*num_cols);//Maintain visibility state of each tile.  0=covered, 1=empty/number, 2=flag
-
-var deck = new Array("2c", "2d", "2h", "2s", "3c", "3d", "3h", "3s",
-"4c", "4d", "4h", "4s", "5c", "5d", "5h", "5s",
-"6c", "6d", "6h", "6s", "7c", "7d", "7h", "7s",
-"8c", "8d", "8h", "8s", "9c", "9d", "9h", "9s",
-"tc", "td", "th", "ts", "jc", "jd", "jh", "js",
-"qc", "qd", "qh", "qs", "kc", "kd", "kh", "ks"); // 0..47
-var currentPlayer;           // values: 0,1 (displayed as 1,2)
-var scores = new Array(3);   // scores[i] == score of player i
-var cardsFlipped;            // # cards flipped by curr player; values: 0,1,2
-var flipped = new Array(2);  // indexes of cards flipped by curr player
-var matched = new Array(num_rows*num_cols); // matched[i] == (deck[i] has been matched)
-
 // click(n) handles the clicking of card n
 function leftClick(n) { //had to change this from click for some reason
   if (matched[n] || cardsFlipped == 2 || (cardsFlipped==1 && flipped[0]==n))
    return;
-
-  flipped[cardsFlipped] = n;
-  document.images[n].src = "http://mulan.csufresno.edu/~twilson/memory/cards/" + deck[n] + ".gif";
-  cardsFlipped++;
-  if (cardsFlipped == 2)
-    setTimeout("checkMatch()", time_interval);
 }
-
 function rightClick(n)
 {
   return false;
 }
-
 function updateTimer()
 {
   current_time++;
   document.f.timer.value = current_time;
 }
-
 // update() refreshes values displayed in textboxes
 function update() {
   document.f.player.value = currentPlayer + 1;
-  document.f.score1.value = scores[0];
-  document.f.score2.value = scores[1];
-  document.f.score3.value = scores[2];
-
+  document.f.time.value = scores[0];
+  document.f.flags.value = scores[1];
 }
 
 // newGame() does all initializations required for starting a new game
@@ -84,12 +58,9 @@ function newGame()
   }
   // initialize textfields
   update();
-
 }
-
-// checkMatch() checks to see if flipped cards match, updates scores,
-// and flips cards accordingly (jokers if they match, backs otherwise)
-function checkMatch() {
+function checkMatch()
+{
   var f = flipped[0], s = flipped[1];
   if (deck[f].charAt(0) == deck[s].charAt(0)) {
     document.images[f].src = "http://mulan.csufresno.edu/~twilson/memory/cards/j.gif";
@@ -125,10 +96,9 @@ function checkMatch() {
   }
   cardsFlipped = 0;  // note: this enables further clicks, which we do last
 }
-
 function gameGrid()
 {
-  document.write("<h>Memory</h><br><table border='1'>");
+  document.write("<table border='1'>");
   for( var i=0; i<num_cols; i++ )
   {
     document.write("<tr>");
@@ -138,22 +108,40 @@ function gameGrid()
     }
     document.write("</tr>");
   }
+  document.write("</table>");
 }
-
 </script>
-<script>
-  gameGrid();
-</script>
-<form NAME="f">
-  <input TYPE="button" VALUE="New Game" onclick ="newGame()">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  Current Player: <input TYPE="text" NAME="player" SIZE="1">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  Player 1's score: <input TYPE="text" NAME="score1" SIZE="2">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  Player 2's score: <input TYPE="text" name="score2" SIZE="2">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  Time: <input TYPE="text" name="timer" SIZE="3">
-</form>
+</head>
+<body>
+  <script>
+    gameGrid();
+  </script>
+  <br>
+  <form NAME='f'>
+    <input TYPE='button' VALUE='New Game' onClick='newGame()'>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Flags:<input TYPE='text' NAME='flags' SIZE='2'>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Time:<input TYPE='text' NAME='timer' SIZE='3'>
+  </form>
+  <br>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
