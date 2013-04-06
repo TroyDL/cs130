@@ -29,9 +29,8 @@ function updateTimer()
 }
 // update() refreshes values displayed in textboxes
 function update() {
-  document.f.player.value = currentPlayer + 1;
-  document.f.time.value = scores[0];
-  document.f.flags.value = scores[1];
+  document.f.time.value = current_time;
+  document.f.flags.value = current_flags;
 }
 
 // newGame() does all initializations required for starting a new game
