@@ -11,6 +11,7 @@ var tile_size = 24;
 var start_time = 0;
 var time_interval = 1000;
 var current_time;
+var remaining_flags;
 var board = new Array(num_rows*num_cols);//Board state: -1=mine, 0=empty, 1-8=number
 var visib = new Array(num_rows*num_cols);//Maintain visibility state of each tile.  0=covered, 1=empty/number, 2=flag
 // click(n) handles the clicking of card n
@@ -20,6 +21,7 @@ function leftClick(n) { //had to change this from click for some reason
 }
 function rightClick(n)
 {
+  remaining_flags--;
   return false;
 }
 function updateTimer()
@@ -29,31 +31,19 @@ function updateTimer()
 }
 // update() refreshes values displayed in textboxes
 function update() {
-  document.f.time.value = current_time;
-  document.f.flags.value = current_flags;
+  document.f.flags.value = remaining_flags;
 }
 
 // newGame() does all initializations required for starting a new game
 function newGame()
 {
-  gameGrid();
   current_time = start_time;
+  remaining_flags=40;
   updateTimer();
   window.setInterval("updateTimer()",1000);
 
-  currentPlayer = 0;
-  scores[0] = scores[1] = scores[2] = 0;
-  cardsFlipped = 0;
   for (var i = 0; i < num_cols*num_rows; i++) {
-    matched[i] = false;
     document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
-  }
-  // shuffle deck
-  for (var i = num_cols*num_rows; i > 0; i--) {
-    var rand = Math.floor(Math.random()*(i+1));
-    var temp = deck[rand];
-    deck[rand] = deck[i];
-    deck[i] = temp;
   }
   // initialize textfields
   update();
@@ -119,7 +109,7 @@ function gameGrid()
   <form NAME='f'>
     <input TYPE='button' VALUE='New Game' onClick='newGame()'>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    Flags:<input TYPE='text' NAME='flags' SIZE='2'>
+    Flags:<input TYPE='text' NAME='flags' SIZE='3'>
     &nbsp;&nbsp;&nbsp;&nbsp;
     Time:<input TYPE='text' NAME='timer' SIZE='3'>
   </form>
