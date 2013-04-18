@@ -38,12 +38,12 @@ function newGame()
   current_time = start_time;
   remaining_flags=num_mines;
   games_played++;
-  if( games_played == 0 )
+  gamestate = 1;
+  if( games_played == 0 && gamestate == 1 )
     window.setInterval("updateTimer()",1000);
   for (var i = 0; i < num_cols*num_rows; i++) {
     document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
   }
-  gamestate = 1;
   update();
 }
 function newBoard()
