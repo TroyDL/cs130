@@ -6,11 +6,11 @@
 // global variables
 var num_rows = 16;
 var num_cols = 16;
-var num_mines = 40;
+var num_mines = 10;
 var tile_size = 24;
 var start_time = 0;
 var time_interval = 1000;
-var current_time;
+var current_time = 0;
 var remaining_flags;
 var games_played = -1;
 var gamestate = 0; //0 means not in play, 1 is in play, 2 is won, 3 is lost
@@ -182,7 +182,7 @@ function rightClick(n)
   update();
 }
 function update() { // update() refreshes values displayed in textboxes
-  document.f.flags.value = remaining_flags;
+  document.getElementById("f").flags.value = remaining_flags;
   document.f.gamenumber.value = games_played;
   for (var i = 0; i < num_cols*num_rows; i++) {
     if( gamestate == 3 && board[i] != -1 && visib[i] == 2 )
@@ -261,14 +261,14 @@ function updateTimer()
 }
 </script>
 
+  <script>
+    window.onLoad = gameGrid();
+  </script>
 
 </head>
 <body>
-  <script>
-    gameGrid();
-  </script>
   <br>
-  <form NAME='f'>
+  <form ID="f" NAME='f'>
     <input TYPE='button' VALUE='Debug' onClick='debugGame()'>
     <input TYPE='button' VALUE='New Game' onClick='newGame()'>
     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -277,8 +277,13 @@ function updateTimer()
     Time:<input TYPE='text' NAME='timer' SIZE='3'>
     &nbsp;&nbsp;&nbsp;&nbsp;
     Game:<input TYPE='text' NAME='gamenumber' SIZE='3'>
+    <br>
+
   </form>
   <br>
+  <script>
+    window.onLoad = newGame();
+  </script>
 </body>
 </html>
 
