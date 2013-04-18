@@ -12,9 +12,86 @@ var start_time = 0;
 var time_interval = 1000;
 var current_time;
 var remaining_flags;
+var gamestate = 0;
 var board = new Array(num_rows*num_cols);//Board state: -1=mine, 0=empty, 1-8=number
 var visib = new Array(num_rows*num_cols);//Maintain visibility state of each tile.  0=covered, 1=empty/number, 2=flag
-// click(n) handles the clicking of card n
+
+function newBoard()
+{
+  for( var i = 0; i < num_rows*num_cols; i++ ) //clear board
+    board[i]=0;
+  for( var i = 0; i < num_mines; i++ ) //insert mines
+  {
+    var tempnumber = 0;
+    do{
+      tempnumber = Math.floor(Math.random()*(num_rows*num_cols));
+    }while( board[tempnumber] == -1 )
+    board[Math.floor(Math.random()*(num_rows*num_cols))] = -1;
+  }
+  var adjacent_bombs = 0;
+  for( var i = 0; i < num_rows*num_cols; i++ ) //increment board[i] value if adjacent to a bomb
+  {
+    if( board[i] == -1 )
+    {
+      if( i%num_cols == 0 ) //along left side
+      {
+        if( board[i-num_cols]   != -1 ) board[i-num_cols]++; //top adjacent
+        if( board[i-num_cols+1] != -1 ) board[i-num_cols+1]++; //top-right adjacent
+        if( board[i+1]          != -1 ) board[i+1]++; //right adjacent
+        if( board[i+num_cols+1] != -1 ) board[i+num_cols+1]++; //bottom-right adjacent
+        if( board[i+num_cols]   != -1 ) board[i+num_cols]++; //bottom adjacent
+      }
+      else if( (i+1)%(num_cols) == 0 ) //along right side
+      {
+        if( board[i-num_cols-1] != -1 ) board[i-num_cols-1]++; //top-left adjacent
+        if( board[i+num_cols-1] != -1 ) board[i+num_cols-1]++; //bottom-left adjacent
+        if( board[i-1]          != -1 ) board[i-1]++; //left adjacent
+        if( board[i+num_cols]   != -1 ) board[i+num_cols]++; //bottom adjacent
+        if( board[i-num_cols]   != -1 ) board[i-num_cols]++; //top adjacent
+      }
+      else
+      {
+        if( board[i-num_cols-1] != -1 ) board[i-num_cols-1]++; //top-left adjacent
+        if( board[i-num_cols+1] != -1 ) board[i-num_cols+1]++; //top-right adjacent
+        if( board[i+num_cols-1] != -1 ) board[i+num_cols-1]++; //bottom-left adjacent
+        if( board[i+num_cols+1] != -1 ) board[i+num_cols+1]++; //bottom-right adjacent
+        if( board[i-1]          != -1 ) board[i-1]++; //left adjacent
+        if( board[i+1]          != -1 ) board[i+1]++; //right adjacent
+        if( board[i+num_cols]   != -1 ) board[i+num_cols]++; //bottom adjacent
+        if( board[i-num_cols]   != -1 ) board[i-num_cols]++; //top adjacent
+      }
+    }
+  }
+/*  for( var i = 0; i < num_rows*num_cols; i++ ) //insert numbers
+  {
+    if( board[i] == -1 )
+      continue;
+    if( i%num_cols == 0 ) //This would mean it is along the left edge of the play field - don't check left
+    {
+      if( i == 0 ) //top left corner - don't check above
+      {
+      }
+      else if( i == (num_rows*num_cols - num_cols) ) //bottom left hand corner - don't check below
+      {
+      }
+    }
+    else if( i%(num_cols-1) == 0 ) //along right hand edge - don't check right
+    {
+      if( i == num_cols-1 ) //top right corner - don't check above
+      {
+      }
+      else if( i == (num_rows*num_cols)-1 ) //bottom right hand corner - don't check below
+      {
+      }
+    }
+    else
+    {
+
+    }
+    adjacent_bombs=0;
+  } */
+}
+
 function leftClick(n) { //had to change this from click for some reason
   if (matched[n] || cardsFlipped == 2 || (cardsFlipped==1 && flipped[0]==n))
    return;
@@ -24,23 +101,32 @@ function rightClick(n)
   remaining_flags--;
   return false;
 }
-function updateTimer()
-{
-  current_time++;
-  document.f.timer.value = current_time;
-}
 // update() refreshes values displayed in textboxes
 function update() {
   document.f.flags.value = remaining_flags;
 }
 
 // newGame() does all initializations required for starting a new game
-function newGame()
+function debugGame()
 {
+  newBoard();//randomizes the board
   current_time = start_time;
   remaining_flags=40;
-  updateTimer();
-  window.setInterval("updateTimer()",1000);
+
+  for (var i = 0; i < num_cols*num_rows; i++) {
+    if( board[i] == -1 )
+      document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/mine.svg";
+    else if( board[i] >= 0 )
+      document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/" + board[i] + ".svg";
+  }
+  // initialize textfields
+  update();
+}
+function newGame()
+{
+  newBoard();//randomizes the board
+  current_time = start_time;
+  remaining_flags=40;
 
   for (var i = 0; i < num_cols*num_rows; i++) {
     document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
@@ -48,10 +134,11 @@ function newGame()
   // initialize textfields
   update();
 }
+
 function checkMatch()
 {
-  var f = flipped[0], s = flipped[1];
-  if (deck[f].charAt(0) == deck[s].charAt(0)) {
+  /*var f = flipped[0], s = flipped[1];
+    if (deck[f].charAt(0) == deck[s].charAt(0)) {
     document.images[f].src = "http://mulan.csufresno.edu/~twilson/memory/cards/j.gif";
     document.images[s].src = "http://mulan.csufresno.edu/~twilson/memory/cards/j.gif";
     matched[f] = matched[s] = true;
@@ -84,7 +171,9 @@ function checkMatch()
     update();
   }
   cardsFlipped = 0;  // note: this enables further clicks, which we do last
+  */
 }
+
 function gameGrid()
 {
   document.write("<table border='1'>");
@@ -99,7 +188,18 @@ function gameGrid()
   }
   document.write("</table>");
 }
+function timerInit()
+{
+  updateTimer();
+  window.setInterval("updateTimer()",1000);
+}
+function updateTimer()
+{
+  current_time++;
+  document.f.timer.value = current_time;
+}
 </script>
+
 </head>
 <body>
   <script>
@@ -107,6 +207,7 @@ function gameGrid()
   </script>
   <br>
   <form NAME='f'>
+    <input TYPE='button' VALUE='Debug' onClick='debugGame()'>
     <input TYPE='button' VALUE='New Game' onClick='newGame()'>
     &nbsp;&nbsp;&nbsp;&nbsp;
     Flags:<input TYPE='text' NAME='flags' SIZE='3'>
