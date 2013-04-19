@@ -20,6 +20,7 @@ var time_interval = 1000;
 var current_time = 0;
 var remaining_flags;
 var games_played = -1;
+var hardmode = false;
 var gamestate = 0; //0 means not in play, 1 is in play, 2 is won, 3 is lost
 var board = new Array(num_rows*num_cols);//Board state: -1=mine, 0=empty, 1-8=number
 var visib = new Array(num_rows*num_cols);//Maintain visibility state of each tile.  0=covered, 1=empty/number, 2=flag
@@ -34,6 +35,24 @@ function debugGame()
   gamestate=4;
   for (var i = 0; i < num_cols*num_rows; i++) {
     visib[i] = 1;
+  }
+  update();
+}
+function newHardGame()
+{
+  current_time = 0;
+  formObject = document.f;
+  num_mines = formObject.minechoice.value;
+  if( num_mines > 256 ) num_mines = 256;
+  remaining_flags=num_mines;
+  newBoard();//randomizes the board
+  games_played++;
+  gamestate = 1;
+  hardmode = true;
+  if( games_played == 0 && gamestate == 1 )
+    timerInit();
+  for (var i = 0; i < num_cols*num_rows; i++) {
+    document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
   }
   update();
 }
@@ -173,7 +192,15 @@ function reveal(n) //if bomb, reveal all and end game, if number just reveal tha
 }
 
 function leftClick(n) { //had to change this from click for some reason
-  if( visib[n] == 0 && gamestate == 1 )
+  if( hardmode == true && visib[n] == 0 && gamestate == 1 )
+  {
+    while( board[n] != -1 )
+    {
+      newBoard();//randomizes the board
+    }
+    reveal(n);
+  }
+  else if( visib[n] == 0 && gamestate == 1 )
     reveal(n);
   else return false;
   update();
@@ -294,6 +321,7 @@ function updateTimer()
     Game:<input TYPE='text' NAME='gamenumber' SIZE='3'>
     <br>
     Mines:<input TYPE='text' NAME='minechoice' VALUE='40' SIZE='3'>
+    <input TYPE='button' VALUE='New Hardmode Game' onClick='newHardGame()'>
 
     <br>
 
