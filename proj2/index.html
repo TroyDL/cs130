@@ -1,14 +1,21 @@
+<!doctype HTML>
+<meta charset="UTF-8">
 <html>
 <head>
 <title>Lab7 </title>
+
+<style type = "text/css">
+img{
+  display: block;
+}
+</style>
 
 <script>
 // global variables
 var num_rows = 16;
 var num_cols = 16;
-var num_mines = 10;
+var num_mines;
 var tile_size = 24;
-var start_time = 0;
 var time_interval = 1000;
 var current_time = 0;
 var remaining_flags;
@@ -19,28 +26,29 @@ var visib = new Array(num_rows*num_cols);//Maintain visibility state of each til
 
 function debugGame()
 {
-  newBoard();//randomizes the board
-  current_time = start_time;
+  formObject = document.f;
+  num_mines = formObject.minechoice.value;
+  if( num_mines > 256 ) num_mines = 256;
   remaining_flags=num_mines;
-
+  newBoard();//randomizes the board
+  gamestate=4;
   for (var i = 0; i < num_cols*num_rows; i++) {
-    if( board[i] == -1 )
-      document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/mine.svg";
-    else if( board[i] >= 0 )
-      document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/" + board[i] + ".svg";
+    visib[i] = 1;
   }
-  gamestate = 1;
   update();
 }
 function newGame()
 {
-  newBoard();//randomizes the board
-  current_time = start_time;
+  current_time = 0;
+  formObject = document.f;
+  num_mines = formObject.minechoice.value;
+  if( num_mines > 256 ) num_mines = 256;
   remaining_flags=num_mines;
+  newBoard();//randomizes the board
   games_played++;
   gamestate = 1;
   if( games_played == 0 && gamestate == 1 )
-    window.setInterval("updateTimer()",1000);
+    timerInit();
   for (var i = 0; i < num_cols*num_rows; i++) {
     document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
   }
@@ -52,11 +60,11 @@ function newBoard()
     board[i]=0;
   for( var i = 0; i < num_mines; i++ ) //insert mines
   {
-    var tempnumber = 0;
-    do{
+    do
+    {
       tempnumber = Math.floor(Math.random()*(num_rows*num_cols));
-    }while( board[tempnumber] == -1 )
-    board[Math.floor(Math.random()*(num_rows*num_cols))] = -1;
+    }while( board[tempnumber] == -1 ) //redo if it is already a bomb
+    board[tempnumber] = -1;
   }
   var adjacent_bombs = 0;
   for( var i = 0; i < num_rows*num_cols; i++ ) //increment board[i] value if adjacent to a bomb
@@ -97,8 +105,8 @@ function newBoard()
 }
 function reveal(n) //if bomb, reveal all and end game, if number just reveal that number, if blank reveal adjacent blanks
 {
-  if( visib[n] == 1 ) return;
-  else if( board[n] == -1 )
+  if( visib[n] == 1 ) return; //stop if it's already visible
+  if( board[n] == -1 )
   {
     for( var i = 0; i < num_cols*num_rows; i++ )
     {
@@ -108,9 +116,13 @@ function reveal(n) //if bomb, reveal all and end game, if number just reveal tha
     gamestate = 3; //change game state to lost
   }
   else if( board[n] > 0 ) //if the tile is a number, reveal only it
+  {
+    if( visib[n] == 2 ) remaining_flags++;
     visib[n] = 1;
+  }
   else if( board[n] == 0) //then it is a blank, reveal all adjacent blanks
   {
+    if( visib[n] == 2 ) remaining_flags++;
     visib[n] = 1;
     if( n%num_cols == 0 ) //along left side
     {
@@ -158,13 +170,13 @@ function reveal(n) //if bomb, reveal all and end game, if number just reveal tha
       if( board[n+1]            != -1 ) reveal(n+1);          //right adjacent
     }
   }
-  update();
 }
 
 function leftClick(n) { //had to change this from click for some reason
   if( visib[n] == 0 && gamestate == 1 )
     reveal(n);
   else return false;
+  update();
 }
 function rightClick(n)
 {
@@ -182,7 +194,7 @@ function rightClick(n)
   update();
 }
 function update() { // update() refreshes values displayed in textboxes
-  document.getElementById("f").flags.value = remaining_flags;
+  document.f.flags.value = remaining_flags;
   document.f.gamenumber.value = games_played;
   for (var i = 0; i < num_cols*num_rows; i++) {
     if( gamestate == 3 && board[i] != -1 && visib[i] == 2 )
@@ -194,7 +206,8 @@ function update() { // update() refreshes values displayed in textboxes
       if( board[i] == -1 ) //reveal the mine because the game was lost
       {
         document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/mine.svg";
-        gamestate = 3; //change game state to "lost"
+        if( gamestate != 4 )
+          gamestate = 3; //change game state to "lost"
       }
       else
       {
@@ -208,6 +221,8 @@ function update() { // update() refreshes values displayed in textboxes
     else if( visib[i] == 0 ) //recover if needed
       document.images[i].src = "http://mulan.csufresno.edu/~twilson/csci130/imgs/tile.svg";
   }
+  if( gamestate == 4 ) //debug mode
+    return;
   checkGame();
 }
 
@@ -250,14 +265,14 @@ function gameGrid()
 
 function timerInit()
 {
-  updateTimer();
-  window.setInterval("updateTimer()",1000);
+  window.setInterval("updateTimer()",time_interval);
 }
 
 function updateTimer()
 {
   current_time++;
-  document.f.timer.value = current_time;
+  if( gamestate == 1 )
+    document.f.timer.value = current_time;
 }
 </script>
 
@@ -268,15 +283,18 @@ function updateTimer()
 </head>
 <body>
   <br>
-  <form ID="f" NAME='f'>
-    <input TYPE='button' VALUE='Debug' onClick='debugGame()'>
+  <form NAME='f'>
+    <input TYPE='button' VALUE='Debug Game' onClick='debugGame()'>
     <input TYPE='button' VALUE='New Game' onClick='newGame()'>
-    &nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
     Flags:<input TYPE='text' NAME='flags' SIZE='3'>
-    &nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
     Time:<input TYPE='text' NAME='timer' SIZE='3'>
-    &nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
     Game:<input TYPE='text' NAME='gamenumber' SIZE='3'>
+    <br>
+    Mines:<input TYPE='text' NAME='minechoice' VALUE='40' SIZE='3'>
+
     <br>
 
   </form>
