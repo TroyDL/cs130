@@ -1,6 +1,18 @@
 <html>
 <?php
 
+$relocationURL = $_GET["relocation"];
+if($relocationURL !== "URL")
+{
+  header("Location: $relocationURL");
+}
+$relocationURL = $_POST["relocation"];
+if($relocationURL !== "URL")
+{
+  header("Location: $relocationURL");
+}
+$visit_count = $_COOKIE['visit'];
+setcookie("visit", $visit_count++, time()+3600);
 
 function var_table($a) {
   print "<table BORDER=1> <tr><th>Keyword <th>Value(s)\n";
@@ -22,7 +34,7 @@ function var_table($a) {
 <h1> Echo Script TDL </h1>
 Your submission had the following features:
 <h2>Server Variables:</h2>
-<?php var_table(?_SERVER) ?>
+<?php var_table($_SERVER) ?>
 <h2>GET method variables</h2>
 <?php var_table($_GET) ?>
 <h2>POST method variables</h2>
