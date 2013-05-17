@@ -11,8 +11,6 @@ if($relocationURL !== "URL")
 {
   header("Location: $relocationURL");
 }
-$visit_count = $_COOKIE['visit'];
-setcookie("visit", $visit_count++, time()+3600);
 
 function var_table($a) {
   print "<table BORDER=1> <tr><th>Keyword <th>Value(s)\n";
@@ -28,6 +26,8 @@ function var_table($a) {
   }
   print "</table>\n";
 }
+$visit_count = $_COOKIE['visitBlah'];
+setcookie("visitBlah", 1 + $visit_count, time()+3600);
 ?>
 
 <body>
